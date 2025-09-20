@@ -489,7 +489,7 @@ class ValidationStepModelTest(TestCase):
     
     def test_validation_step_str(self):
         """Prueba la representación string del paso de validación."""
-        expected = "Paso 1 - Test User"
+        expected = "Paso 1 - testuser"
         self.assertEqual(str(self.validation_step), expected)
     
     def test_validation_step_status_methods(self):
@@ -576,7 +576,7 @@ class ValidationActionModelTest(TestCase):
     
     def test_validation_action_str(self):
         """Prueba la representación string de la acción de validación."""
-        expected = "Aprobar - test.pdf por Test User"
+        expected = "Aprobar - test.pdf por testuser"
         self.assertEqual(str(self.validation_action), expected)
     
     def test_validation_action_type_methods(self):

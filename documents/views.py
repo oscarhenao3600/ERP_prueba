@@ -19,7 +19,7 @@ from .serializers import (
     DocumentSerializer, DocumentCreateSerializer, DocumentApprovalSerializer,
     DocumentRejectionSerializer, DocumentUploadSerializer
 )
-from .services import storage_service
+from .services_test import storage_service
 from .validation_service import ValidationService
 from companies.models import Company, Entity, User
 

@@ -13,8 +13,8 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 import boto3
 from botocore.exceptions import ClientError, NoCredentialsError
-from google.cloud import storage as gcs
-from google.cloud.exceptions import NotFound
+# from google.cloud import storage as gcs
+# from google.cloud.exceptions import NotFound
 import logging
 
 logger = logging.getLogger(__name__)
@@ -244,22 +244,22 @@ class S3StorageService(CloudStorageService):
             raise
 
 
-class GCSStorageService(CloudStorageService):
-    """
-    Servicio para operaciones con Google Cloud Storage.
-    
-    Implementa las operaciones de cloud storage usando Google Cloud Storage,
-    incluyendo la generación de URLs pre-firmadas.
-    """
-    
-    def __init__(self):
-        super().__init__()
-        try:
-            self.gcs_client = gcs.Client()
-            self.bucket = self.gcs_client.bucket(self.bucket_name)
-        except Exception as e:
-            logger.error(f"Error al inicializar cliente GCS: {e}")
-            raise
+# class GCSStorageService(CloudStorageService):
+#     """
+#     Servicio para operaciones con Google Cloud Storage.
+#     
+#     Implementa las operaciones de cloud storage usando Google Cloud Storage,
+#     incluyendo la generación de URLs pre-firmadas.
+#     """
+#     
+#     def __init__(self):
+#         super().__init__()
+#         try:
+#             self.gcs_client = gcs.Client()
+#             self.bucket = self.gcs_client.bucket(self.bucket_name)
+#         except Exception as e:
+#             logger.error(f"Error al inicializar cliente GCS: {e}")
+#             raise
     
     def generate_presigned_upload_url(self, bucket_key: str, mime_type: str) -> Dict[str, Any]:
         """

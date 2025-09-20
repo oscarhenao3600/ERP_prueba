@@ -12,7 +12,7 @@ from django.core.exceptions import ValidationError
 
 from companies.models import Company, Entity, EntityType, User
 from documents.models import Document, ValidationFlow, ValidationStep, ValidationAction
-from documents.services import S3StorageService, GCSStorageService, CloudStorageService
+from documents.services import S3StorageService, CloudStorageService
 from documents.validation_service import ValidationService
 
 
