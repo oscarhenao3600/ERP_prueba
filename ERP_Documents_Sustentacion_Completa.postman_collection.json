@@ -1,0 +1,746 @@
+{
+	"info": {
+		"_postman_id": "erp-documents-sustentacion-completa",
+		"name": "🚀 ERP Documents - Sustentación Completa con Autenticación",
+		"description": "Colección completa para sustentación del sistema ERP con autenticación implementada",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "🔐 Autenticación",
+			"item": [
+				{
+					"name": "🔑 Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"sustentador\",\n  \"password\": \"sustentacion123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/login/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "auth", "login", ""]
+						},
+						"description": "Iniciar sesión y obtener token de autenticación."
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    pm.environment.set('auth_token', response.token);",
+									"    pm.environment.set('user_id', response.user.id);",
+									"    pm.environment.set('company_id', response.user.company.id);",
+									"    console.log('✅ Token guardado:', response.token);",
+									"    console.log('✅ User ID:', response.user.id);",
+									"    console.log('✅ Company ID:', response.user.company.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					]
+				},
+				{
+					"name": "👤 Perfil de Usuario",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/auth/profile/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "auth", "profile", ""]
+						},
+						"description": "Obtener información del perfil del usuario autenticado."
+					}
+				},
+				{
+					"name": "🚪 Logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/auth/logout/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "auth", "logout", ""]
+						},
+						"description": "Cerrar sesión del usuario."
+					}
+				}
+			],
+			"description": "Endpoints de autenticación del sistema."
+		},
+		{
+			"name": "🏢 Gestión de Empresas",
+			"item": [
+				{
+					"name": "📋 Listar Empresas",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/companies/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "companies", ""]
+						},
+						"description": "Lista todas las empresas disponibles para el usuario autenticado."
+					}
+				},
+				{
+					"name": "📊 Estadísticas de Empresa",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/companies/{{company_id}}/stats/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "companies", "{{company_id}}", "stats", ""]
+						},
+						"description": "Obtiene estadísticas detalladas de la empresa del usuario."
+					}
+				},
+				{
+					"name": "👥 Usuarios de la Empresa",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/companies/{{company_id}}/users/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "companies", "{{company_id}}", "users", ""]
+						},
+						"description": "Lista todos los usuarios de la empresa del usuario autenticado."
+					}
+				}
+			],
+			"description": "Operaciones de gestión de empresas."
+		},
+		{
+			"name": "🏭 Gestión de Entidades",
+			"item": [
+				{
+					"name": "📋 Listar Tipos de Entidad",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/entity-types/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "entity-types", ""]
+						},
+						"description": "Lista todos los tipos de entidades disponibles."
+					}
+				},
+				{
+					"name": "📋 Listar Entidades",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/entities/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "entities", ""]
+						},
+						"description": "Lista todas las entidades del usuario autenticado."
+					}
+				},
+				{
+					"name": "➕ Crear Entidad - Vehículo",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"company_id\": \"{{company_id}}\",\n  \"entity_type\": \"vehicle\",\n  \"external_id\": \"VEH-DEMO-{{$timestamp}}\",\n  \"name\": \"Vehículo Demo Sustentación\",\n  \"metadata\": {\n    \"brand\": \"Toyota\",\n    \"model\": \"Corolla\",\n    \"year\": 2023,\n    \"plate\": \"DEM-{{$timestamp}}\",\n    \"color\": \"Blanco\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/entities/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "entities", ""]
+						},
+						"description": "Crea una nueva entidad de tipo vehículo."
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    const response = pm.response.json();",
+									"    pm.environment.set('entity_id', response.id);",
+									"    console.log('✅ Entity ID guardado:', response.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					]
+				}
+			],
+			"description": "Operaciones de gestión de entidades."
+		},
+		{
+			"name": "📄 Gestión de Documentos",
+			"item": [
+				{
+					"name": "📋 Listar Documentos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/documents/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "documents", ""]
+						},
+						"description": "Lista todos los documentos del usuario autenticado."
+					}
+				},
+				{
+					"name": "📤 Obtener URL de Subida",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"bucket_key\": \"companies/{{company_id}}/vehicles/{{entity_id}}/docs/documento-demo-{{$timestamp}}.pdf\",\n  \"mime_type\": \"application/pdf\",\n  \"expiration_hours\": 1\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/documents/upload_url/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "documents", "upload_url", ""]
+						},
+						"description": "Obtiene una URL pre-firmada para subir un archivo al cloud storage."
+					}
+				},
+				{
+					"name": "➕ Crear Documento - Con Validación",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"company_id\": \"{{company_id}}\",\n  \"entity\": {\n    \"entity_type\": \"vehicle\",\n    \"entity_id\": \"VEH-DEMO-{{$timestamp}}\"\n  },\n  \"document\": {\n    \"name\": \"SOAT Demo {{$timestamp}}.pdf\",\n    \"mime_type\": \"application/pdf\",\n    \"size_bytes\": 245760,\n    \"bucket_key\": \"companies/{{company_id}}/vehicles/{{entity_id}}/docs/soat-demo-{{$timestamp}}.pdf\",\n    \"file_hash\": \"{{$randomAlphaNumeric}}\",\n    \"description\": \"SOAT del vehículo demo para sustentación\",\n    \"tags\": [\"seguro\", \"vehiculo\", \"soat\", \"2024\"]\n  },\n  \"validation_flow\": {\n    \"enabled\": true,\n    \"steps\": [\n      {\n        \"order\": 1,\n        \"approver_user_id\": \"{{user_id}}\"\n      },\n      {\n        \"order\": 2,\n        \"approver_user_id\": \"{{user_id}}\"\n      }\n    ]\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/documents/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "documents", ""]
+						},
+						"description": "Crea un nuevo documento con flujo de validación jerárquico."
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    const response = pm.response.json();",
+									"    pm.environment.set('document_id', response.id);",
+									"    console.log('✅ Document ID guardado:', response.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					]
+				},
+				{
+					"name": "🔍 Detalle de Documento",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/documents/{{document_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "documents", "{{document_id}}", ""]
+						},
+						"description": "Obtiene información detallada de un documento específico."
+					}
+				},
+				{
+					"name": "📊 Estado de Validación",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/documents/{{document_id}}/validation_status/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "documents", "{{document_id}}", "validation_status", ""]
+						},
+						"description": "Obtiene el estado detallado del flujo de validación de un documento."
+					}
+				}
+			],
+			"description": "Operaciones de gestión de documentos."
+		},
+		{
+			"name": "✅ Flujo de Validación",
+			"item": [
+				{
+					"name": "⏳ Documentos Pendientes de Aprobación",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/documents/pending_approvals/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "documents", "pending_approvals", ""]
+						},
+						"description": "Lista todos los documentos pendientes de aprobación."
+					}
+				},
+				{
+					"name": "✅ Aprobar Documento",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"actor_user_id\": \"{{user_id}}\",\n  \"reason\": \"Documento cumple con todos los requisitos establecidos. SOAT vigente y legible.\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/documents/{{document_id}}/approve/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "documents", "{{document_id}}", "approve", ""]
+						},
+						"description": "Aprueba un documento en el flujo de validación jerárquico."
+					}
+				},
+				{
+					"name": "❌ Rechazar Documento",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"actor_user_id\": \"{{user_id}}\",\n  \"reason\": \"Documento ilegible. La imagen está borrosa y no se puede verificar la información.\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/documents/{{document_id}}/reject/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "documents", "{{document_id}}", "reject", ""]
+						},
+						"description": "Rechaza un documento en el flujo de validación (acción terminal)."
+					}
+				}
+			],
+			"description": "Operaciones del flujo de validación jerárquico."
+		},
+		{
+			"name": "📊 Reportes y Estadísticas",
+			"item": [
+				{
+					"name": "📈 Dashboard General",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/companies/{{company_id}}/stats/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "companies", "{{company_id}}", "stats", ""]
+						},
+						"description": "Obtiene estadísticas generales de la empresa para el dashboard."
+					}
+				},
+				{
+					"name": "📊 Estadísticas de Documentos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/documents/approval_stats/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "documents", "approval_stats", ""]
+						},
+						"description": "Obtiene estadísticas detalladas de aprobación de documentos."
+					}
+				}
+			],
+			"description": "Reportes y estadísticas del sistema."
+		},
+		{
+			"name": "🎭 Escenarios de Sustentación",
+			"item": [
+				{
+					"name": "🎯 Escenario Completo: Flujo de Documento",
+					"item": [
+						{
+							"name": "1️⃣ Login",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"sustentador\",\n  \"password\": \"sustentacion123\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/api/auth/login/",
+									"host": ["{{base_url}}"],
+									"path": ["api", "auth", "login", ""]
+								}
+							},
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code === 200) {",
+											"    const response = pm.response.json();",
+											"    pm.environment.set('auth_token', response.token);",
+											"    pm.environment.set('user_id', response.user.id);",
+											"    pm.environment.set('company_id', response.user.company.id);",
+											"    console.log('✅ Login exitoso');",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							]
+						},
+						{
+							"name": "2️⃣ Crear Entidad",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Token {{auth_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"company_id\": \"{{company_id}}\",\n  \"entity_type\": \"vehicle\",\n  \"external_id\": \"VEH-SCENARIO-{{$timestamp}}\",\n  \"name\": \"Vehículo Escenario Completo\",\n  \"metadata\": {\n    \"brand\": \"Ford\",\n    \"model\": \"Focus\",\n    \"year\": 2022,\n    \"plate\": \"ESC-{{$timestamp}}\",\n    \"color\": \"Azul\"\n  }\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/api/entities/",
+									"host": ["{{base_url}}"],
+									"path": ["api", "entities", ""]
+								}
+							},
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code === 201) {",
+											"    const response = pm.response.json();",
+											"    pm.environment.set('entity_id', response.id);",
+											"    console.log('✅ Entidad creada');",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							]
+						},
+						{
+							"name": "3️⃣ Crear Documento con Validación",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Token {{auth_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"company_id\": \"{{company_id}}\",\n  \"entity\": {\n    \"entity_type\": \"vehicle\",\n    \"entity_id\": \"VEH-SCENARIO-{{$timestamp}}\"\n  },\n  \"document\": {\n    \"name\": \"SOAT Escenario Completo.pdf\",\n    \"mime_type\": \"application/pdf\",\n    \"size_bytes\": 300000,\n    \"bucket_key\": \"companies/{{company_id}}/vehicles/{{entity_id}}/docs/soat-escenario-completo.pdf\",\n    \"file_hash\": \"scenario{{$timestamp}}hash\",\n    \"description\": \"SOAT del vehículo del escenario completo\",\n    \"tags\": [\"escenario\", \"soat\", \"validacion\"]\n  },\n  \"validation_flow\": {\n    \"enabled\": true,\n    \"steps\": [\n      {\n        \"order\": 1,\n        \"approver_user_id\": \"{{user_id}}\"\n      },\n      {\n        \"order\": 2,\n        \"approver_user_id\": \"{{user_id}}\"\n      }\n    ]\n  }\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/api/documents/",
+									"host": ["{{base_url}}"],
+									"path": ["api", "documents", ""]
+								}
+							},
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code === 201) {",
+											"    const response = pm.response.json();",
+											"    pm.environment.set('document_id', response.id);",
+											"    console.log('✅ Documento creado con validación');",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							]
+						},
+						{
+							"name": "4️⃣ Verificar Estado Pendiente",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Token {{auth_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/documents/{{document_id}}/validation_status/",
+									"host": ["{{base_url}}"],
+									"path": ["api", "documents", "{{document_id}}", "validation_status", ""]
+								}
+							},
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code === 200) {",
+											"    console.log('✅ Estado de validación verificado');",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							]
+						},
+						{
+							"name": "5️⃣ Aprobar Documento",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Token {{auth_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"actor_user_id\": \"{{user_id}}\",\n  \"reason\": \"Documento aprobado en escenario completo - cumple requisitos\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/api/documents/{{document_id}}/approve/",
+									"host": ["{{base_url}}"],
+									"path": ["api", "documents", "{{document_id}}", "approve", ""]
+								}
+							},
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code === 200) {",
+											"    console.log('✅ Documento aprobado exitosamente');",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							]
+						},
+						{
+							"name": "6️⃣ Verificar Estado Final",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Token {{auth_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/documents/{{document_id}}/validation_status/",
+									"host": ["{{base_url}}"],
+									"path": ["api", "documents", "{{document_id}}", "validation_status", ""]
+								}
+							},
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code === 200) {",
+											"    console.log('✅ Estado final verificado - ESCENARIO COMPLETO EXITOSO');",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							]
+						}
+					],
+					"description": "Escenario completo: Login → Crear Entidad → Crear Documento → Aprobar → Verificar estado"
+				}
+			],
+			"description": "Escenarios completos para la sustentación."
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Script global para manejo de variables dinámicas",
+					"console.log('🚀 Iniciando request para:', pm.request.url);"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Tests globales para validar respuestas",
+					"pm.test('Response time is less than 5000ms', function () {",
+					"    pm.expect(pm.response.responseTime).to.be.below(5000);",
+					"});",
+					"",
+					"pm.test('Response has proper headers', function () {",
+					"    if (pm.request.url.toString().includes('/api/')) {",
+					"        pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+					"    }",
+					"});"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000",
+			"type": "string"
+		}
+	]
+}
