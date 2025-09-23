@@ -1,0 +1,92 @@
+# Configuración de entorno para el sistema ERP de gestión de documentos
+# Base de datos PostgreSQL
+
+# =============================================================================
+# CONFIGURACIÓN DE DJANGO
+# =============================================================================
+DEBUG=True
+SECRET_KEY=django-insecure-demo-key-for-erp-documents-system-2024
+ALLOWED_HOSTS=localhost,127.0.0.1,0.0.0.0
+CORS_ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
+
+# =============================================================================
+# CONFIGURACIÓN DE BASE DE DATOS POSTGRESQL
+# =============================================================================
+DB_NAME=erp_documents
+DB_USER=postgres
+DB_PASSWORD=postgres123
+DB_HOST=localhost
+DB_PORT=5432
+
+# =============================================================================
+# CONFIGURACIÓN DE AWS S3 (SIMULADA)
+# =============================================================================
+AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE
+AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+AWS_STORAGE_BUCKET_NAME=erp-documents-bucket-demo
+AWS_S3_REGION_NAME=us-east-1
+AWS_S3_CUSTOM_DOMAIN=localhost:9000
+AWS_S3_ENDPOINT_URL=http://localhost:9000
+
+# =============================================================================
+# CONFIGURACIÓN DE ALMACENAMIENTO
+# =============================================================================
+MAX_FILE_SIZE=10485760
+ALLOWED_MIME_TYPES=application/pdf,image/jpeg,image/png,image/gif,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document
+PRESIGNED_URL_EXPIRATION=3600
+
+# =============================================================================
+# CONFIGURACIÓN DE CACHE Y SESIONES
+# =============================================================================
+REDIS_URL=redis://localhost:6379/1
+CACHE_BACKEND=redis
+SESSION_BACKEND=cache
+
+# =============================================================================
+# CONFIGURACIÓN DE EMAIL
+# =============================================================================
+EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_USE_TLS=True
+EMAIL_HOST_USER=demo@erp-documents.com
+EMAIL_HOST_PASSWORD=demo-email-password-123
+
+# =============================================================================
+# CONFIGURACIÓN DE LOGGING
+# =============================================================================
+LOG_LEVEL=DEBUG
+LOG_FILE=logs/django.log
+
+# =============================================================================
+# CONFIGURACIÓN DE SEGURIDAD
+# =============================================================================
+SECURE_BROWSER_XSS_FILTER=True
+SECURE_CONTENT_TYPE_NOSNIFF=True
+X_FRAME_OPTIONS=DENY
+SECURE_HSTS_SECONDS=31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS=True
+SECURE_HSTS_PRELOAD=True
+CSRF_COOKIE_SECURE=False
+SESSION_COOKIE_SECURE=False
+CSRF_COOKIE_HTTPONLY=True
+SESSION_COOKIE_HTTPONLY=True
+
+# =============================================================================
+# CONFIGURACIÓN DE ARCHIVOS ESTÁTICOS Y MEDIA
+# =============================================================================
+STATIC_ROOT=staticfiles
+MEDIA_ROOT=media
+MEDIA_URL=/media/
+
+# =============================================================================
+# CONFIGURACIÓN DE DEMO Y SUSTENTACIÓN
+# =============================================================================
+DEMO_MODE=True
+DEMO_COMPANY_ID=fb36990a-7101-4f07-9b1f-c58bf492355b
+DEMO_VEHICLE_ENTITY_ID=02d33ab1-4fc3-49e3-91b2-196d89c76b7b
+DEMO_EMPLOYEE_ENTITY_ID=648eda80-bf9d-408d-92c4-089c6ab821b7
+DEMO_DOCUMENT_ID=05a7bcab-9015-4923-9bd3-ed54424d6fc7
+DEMO_SUSTENTADOR_USER_ID=90791d80-5d55-4723-8a13-22488bd36fb9
+DEMO_APROBADOR1_USER_ID=ddb1af5d-d35e-47c9-993b-3c35e106ed39
+DEMO_APROBADOR2_USER_ID=a1b2c3d4-e5f6-7890-abcd-ef1234567890

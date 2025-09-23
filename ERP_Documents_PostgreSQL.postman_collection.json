@@ -1,0 +1,746 @@
+{
+	"info": {
+		"_postman_id": "postgresql-erp-documents",
+		"name": "ERP Documents PostgreSQL Demo",
+		"description": "Colección completa para demostrar el sistema ERP de gestión de documentos con PostgreSQL",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "🔐 Autenticación",
+			"item": [
+				{
+					"name": "Login - Sustentador",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"sustentador\",\n    \"password\": \"sustentacion123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/login/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login",
+								""
+							]
+						},
+						"description": "Iniciar sesión con el usuario sustentador"
+					},
+					"response": [],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    pm.environment.set('auth_token', response.token);",
+									"    pm.environment.set('user_id', response.user.id);",
+									"    pm.environment.set('company_id', response.user.company.id);",
+									"    console.log('Token guardado:', response.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					]
+				},
+				{
+					"name": "Login - Aprobador 1",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"aprobador1\",\n    \"password\": \"aprobador123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/login/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login",
+								""
+							]
+						},
+						"description": "Iniciar sesión con el usuario aprobador 1"
+					},
+					"response": []
+				},
+				{
+					"name": "Login - Admin",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"admin123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/login/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login",
+								""
+							]
+						},
+						"description": "Iniciar sesión con el usuario administrador"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints de autenticación del sistema"
+		},
+		{
+			"name": "🏢 Empresas",
+			"item": [
+				{
+					"name": "Listar Empresas",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/companies/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"companies",
+								""
+							]
+						},
+						"description": "Obtener lista de empresas"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Empresa Demo",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/companies/{{company_id}}/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"companies",
+								"{{company_id}}",
+								""
+							]
+						},
+						"description": "Obtener detalles de la empresa demo"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para gestión de empresas"
+		},
+		{
+			"name": "🚗 Entidades",
+			"item": [
+				{
+					"name": "Listar Entidades",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/entities/?company_id={{company_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"entities",
+								""
+							],
+							"query": [
+								{
+									"key": "company_id",
+									"value": "{{company_id}}"
+								}
+							]
+						},
+						"description": "Obtener lista de entidades de la empresa"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Vehículo Demo",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/entities/02d33ab1-4fc3-49e3-91b2-196d89c76b7b/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"entities",
+								"02d33ab1-4fc3-49e3-91b2-196d89c76b7b",
+								""
+							]
+						},
+						"description": "Obtener detalles del vehículo demo"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Empleado Demo",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/entities/648eda80-bf9d-408d-92c4-089c6ab821b7/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"entities",
+								"648eda80-bf9d-408d-92c4-089c6ab821b7",
+								""
+							]
+						},
+						"description": "Obtener detalles del empleado demo"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Equipo Demo",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/entities/a1b2c3d4-e5f6-7890-abcd-ef1234567890/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"entities",
+								"a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+								""
+							]
+						},
+						"description": "Obtener detalles del equipo demo"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para gestión de entidades"
+		},
+		{
+			"name": "📄 Documentos",
+			"item": [
+				{
+					"name": "Listar Documentos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/documents/?company_id={{company_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"documents",
+								""
+							],
+							"query": [
+								{
+									"key": "company_id",
+									"value": "{{company_id}}"
+								}
+							]
+						},
+						"description": "Obtener lista de documentos de la empresa"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener SOAT Vehículo",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/documents/05a7bcab-9015-4923-9bd3-ed54424d6fc7/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"documents",
+								"05a7bcab-9015-4923-9bd3-ed54424d6fc7",
+								""
+							]
+						},
+						"description": "Obtener detalles del SOAT del vehículo demo"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Contrato Laboral",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/documents/b2c3d4e5-f6a7-8901-bcde-f23456789012/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"documents",
+								"b2c3d4e5-f6a7-8901-bcde-f23456789012",
+								""
+							]
+						},
+						"description": "Obtener detalles del contrato laboral demo"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Manual Equipo",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/documents/c3d4e5f6-a7b8-9012-cdef-345678901234/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"documents",
+								"c3d4e5f6-a7b8-9012-cdef-345678901234",
+								""
+							]
+						},
+						"description": "Obtener detalles del manual del equipo demo"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Nuevo Documento",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"entity_id\": \"02d33ab1-4fc3-49e3-91b2-196d89c76b7b\",\n    \"name\": \"Seguro Vehículo Demo.pdf\",\n    \"mime_type\": \"application/pdf\",\n    \"size_bytes\": 320000,\n    \"description\": \"Seguro del vehículo demo para prueba del sistema\",\n    \"tags\": [\"seguro\", \"vehiculo\", \"demo\"]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/documents/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"documents",
+								""
+							]
+						},
+						"description": "Crear un nuevo documento para el vehículo demo"
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Documento",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"SOAT del vehículo demo actualizado\",\n    \"tags\": [\"soat\", \"vehiculo\", \"seguro\", \"demo\", \"actualizado\"]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/documents/05a7bcab-9015-4923-9bd3-ed54424d6fc7/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"documents",
+								"05a7bcab-9015-4923-9bd3-ed54424d6fc7",
+								""
+							]
+						},
+						"description": "Actualizar información del SOAT del vehículo"
+					},
+					"response": []
+				},
+				{
+					"name": "Descargar Documento",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/documents/05a7bcab-9015-4923-9bd3-ed54424d6fc7/download/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"documents",
+								"05a7bcab-9015-4923-9bd3-ed54424d6fc7",
+								"download",
+								""
+							]
+						},
+						"description": "Descargar el SOAT del vehículo demo"
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Documento",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/documents/c3d4e5f6-a7b8-9012-cdef-345678901234/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"documents",
+								"c3d4e5f6-a7b8-9012-cdef-345678901234",
+								""
+							]
+						},
+						"description": "Eliminar el manual del equipo demo"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para gestión de documentos"
+		},
+		{
+			"name": "✅ Validaciones",
+			"item": [
+				{
+					"name": "Listar Flujos de Validación",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/validation-flows/?company_id={{company_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"validation-flows",
+								""
+							],
+							"query": [
+								{
+									"key": "company_id",
+									"value": "{{company_id}}"
+								}
+							]
+						},
+						"description": "Obtener lista de flujos de validación"
+					},
+					"response": []
+				},
+				{
+					"name": "Aprobar Paso de Validación",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"action\": \"approve\",\n    \"comments\": \"Documento aprobado por el supervisor\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/validation-steps/fb7f0214-adf9-47ab-b277-1e274e69f98b/action/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"validation-steps",
+								"fb7f0214-adf9-47ab-b277-1e274e69f98b",
+								"action",
+								""
+							]
+						},
+						"description": "Aprobar el primer paso de validación del SOAT"
+					},
+					"response": []
+				},
+				{
+					"name": "Rechazar Paso de Validación",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"action\": \"reject\",\n    \"comments\": \"Documento rechazado por falta de información\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/validation-steps/71e76528-0b80-4b28-b70c-4919f5ac8566/action/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"validation-steps",
+								"71e76528-0b80-4b28-b70c-4919f5ac8566",
+								"action",
+								""
+							]
+						},
+						"description": "Rechazar el segundo paso de validación del SOAT"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para gestión de validaciones"
+		},
+		{
+			"name": "📊 Reportes",
+			"item": [
+				{
+					"name": "Estadísticas de Documentos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/reports/documents-stats/?company_id={{company_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"reports",
+								"documents-stats",
+								""
+							],
+							"query": [
+								{
+									"key": "company_id",
+									"value": "{{company_id}}"
+								}
+							]
+						},
+						"description": "Obtener estadísticas de documentos de la empresa"
+					},
+					"response": []
+				},
+				{
+					"name": "Reporte de Validaciones",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/reports/validation-stats/?company_id={{company_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"reports",
+								"validation-stats",
+								""
+							],
+							"query": [
+								{
+									"key": "company_id",
+									"value": "{{company_id}}"
+								}
+							]
+						},
+						"description": "Obtener estadísticas de validaciones de la empresa"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para reportes y estadísticas"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Verificar que el token existe",
+					"if (!pm.environment.get('auth_token')) {",
+					"    console.log('⚠️ Token de autenticación no encontrado. Ejecuta primero el Login.');",
+					"}"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Log de respuesta para debugging",
+					"console.log('Response Status:', pm.response.code);",
+					"console.log('Response Time:', pm.response.responseTime + 'ms');",
+					"",
+					"// Verificar respuesta exitosa",
+					"if (pm.response.code >= 200 && pm.response.code < 300) {",
+					"    console.log('✅ Request successful');",
+					"} else {",
+					"    console.log('❌ Request failed with status:', pm.response.code);",
+					"}"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000",
+			"type": "string"
+		}
+	]
+}

@@ -1,19 +1,14 @@
-# Configuración de desarrollo para el sistema ERP de gestión de documentos
-
+# Configuración temporal con SQLite para pruebas
 from .base import *
 
 # Debug mode habilitado para desarrollo
 DEBUG = True
 
-# Configuración de base de datos PostgreSQL para desarrollo
+# Configuración temporal con SQLite
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'erp_documents',
-        'USER': 'postgres',
-        'PASSWORD': 'oscar3600',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
