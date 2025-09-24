@@ -44,3 +44,4 @@ echo    Presiona Ctrl+C para detener el servidor
 echo.
 
 python manage.py runserver 8000
+
